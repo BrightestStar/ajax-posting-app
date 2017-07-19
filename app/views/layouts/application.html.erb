@@ -9,11 +9,60 @@
   </head>
 
   <body>
-    <%= link_to "jQuery 练习一", jquery_1_path %> |
-    <%= link_to "jQuery 练习二", jquery_2_path %> |
-    <%= link_to "jQuery 练习三", jquery_3_path %> |
-    <%= link_to "jQuery 练习四", jquery_4_path %> |
-    <%= link_to "jQuery 练习五", jquery_5_path %> 
-    <%= yield %>
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+
+                <% if flash[:notice] %>
+                <%= flash[:notice] %>
+                <% end %>
+
+                <% if flash[:alert] %>
+                <%= flash[:alert] %>
+                <% end %>
+
+                <% if current_user %>
+                <li>
+                  <%= link_to( '登出', destroy_user_session_path, :method => :delete) %>
+                </li>
+                <li>
+                  <%= link_to( '修改密码', edit_registration_path(:user)) %>
+                </li>
+              <% else %>
+                <li>
+                  <%= link_to( '注册', new_registration_path(:user)) %>
+                </li>
+                <li>
+
+                  <%= link_to( '登入', new_session_path(:user)) %>
+                </li>
+                <% end %>
+                <li>
+                  <%= link_to "jQuery 练习一", jquery_1_path %>
+                </li>
+                <li>
+                  <%= link_to "jQuery 练习二", jquery_2_path %>
+                </li>
+                <li>
+                  <%= link_to "jQuery 练习三", jquery_3_path %>
+                </li>
+                <li>
+                  <%= link_to "jQuery 练习四", jquery_4_path %>
+                </li>
+                <li>
+                  <%= link_to "jQuery 练习五", jquery_5_path %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <%= yield %>
+    </div>
+
   </body>
 </html>
