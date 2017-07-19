@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, :only => [:create, :destroy]
 
   def index
-    @posts = Post.order("id DESC").limit(10)
+    @posts = Post.order("id DESC").limit(20)
 
     if params[:max_id]
       @posts = @posts.where( "id < ?", params[:max_id])
@@ -19,6 +19,14 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user = current_user
     @post.save
+  end
+
+  def update
+    sleep(1)
+    @post = Post.find(params[:id])
+    @post.update!( post_params )
+
+    render :json => { :id => @post.id, :message => "ok"}
   end
 
   def destroy
@@ -59,7 +67,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:content)
+    params.require(:post).permit(:content, :category_id)
   end
 
 end
