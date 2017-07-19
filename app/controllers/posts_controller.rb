@@ -3,7 +3,16 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, :only => [:create, :destroy]
 
   def index
-    @posts = Post.order("id DESC").all
+    @posts = Post.order("id DESC").limit(10)
+
+    if params[:max_id]
+      @posts = @posts.where( "id < ?", params[:max_id])
+    end
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
@@ -15,6 +24,8 @@ class PostsController < ApplicationController
   def destroy
     @post = current_user.posts.find(params[:id])
     @post.destroy
+
+    render :json => { :id => @post.id }
   end
 
   def like

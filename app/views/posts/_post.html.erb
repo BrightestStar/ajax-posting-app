@@ -13,8 +13,24 @@
       </span>
 
       <% if current_user && post.user == current_user %>
-      <%= link_to "Delete", post_path(post), :method => :delete, :class => "btn btn-danger", :remote => true %>
+      <%= link_to "Delete", post_path(post), :class => "delete-post btn btn-danger" %>
       <% end %>
     </div>
   </div>
 </div>
+
+<script>
+  $(".delete-post").click(function(evt){
+    evt.preventDefault();
+    var url = $(this).attr("href");
+
+    $.ajax({
+      url: url,
+      method: 'DELETE',
+      dataType: 'json',
+      success: function(data){
+        $("#post-" + data["id"]).remove();
+      }
+    })
+  })
+</script>
